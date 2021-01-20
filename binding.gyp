@@ -1,12 +1,13 @@
 {
   "targets": [
     {
-      "target_name": "desktopIdle",
+      "target_name": "desktopIdle.unknown",
       "sources": [
         "src/desktop_idle.cc"
       ],
       "conditions": [
         ['OS=="mac"', {
+          "target_name": "desktopIdle.darwin",
           "sources": [
             "src/mac/idle.mm"
           ],
@@ -17,6 +18,7 @@
         [
           'OS=="linux"',
           {
+            "target_name": "desktopIdle.linux",
             "sources": [
               "src/linux/idle.cc"
             ],
@@ -44,6 +46,7 @@
         [
           'OS=="freebsd"',
           {
+            "target_name": "desktopIdle.freebsd",
             "sources": [
               "src/linux/idle.cc"
             ],
@@ -74,6 +77,7 @@
         [
           'OS=="openbsd"',
           {
+            "target_name": "desktopIdle.openbsd",
             "sources": [
               "src/linux/idle.cc"
             ],
@@ -104,6 +108,7 @@
 	[
           'OS=="win"',
           {
+            "target_name": "desktopIdle.win32",
             "sources": [
               "src/win/idle.cc"
             ],
