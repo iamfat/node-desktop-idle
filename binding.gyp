@@ -1,126 +1,122 @@
 {
-  "targets": [
-    {
-      "target_name": "desktopIdle.unknown",
-      "sources": [
-        "src/desktop_idle.cc"
-      ],
-      "conditions": [
-        ['OS=="mac"', {
-          "target_name": "desktopIdle.darwin",
-          "sources": [
-            "src/mac/idle.mm"
-          ],
-          "xcode_settings": {
-            "OTHER_LDFLAGS": ["-framework CoreGraphics"]
-          }
-        }],
-        [
-          'OS=="linux"',
-          {
-            "target_name": "desktopIdle.linux",
+    "targets": [
+        {
+            "target_name": "desktopIdle.<!(node -e 'process.stdout.write(process.platform)')-<!(node -e 'process.stdout.write(process.arch)')",
             "sources": [
-              "src/linux/idle.cc"
+                "src/desktop_idle.cc"
             ],
-            "variables": {
-	            "pkg-config": "pkg-config"
-            },
-            "sources": [
-              "src/linux/idle.cc"
-            ],
-            "direct_dependent_settings": {
-              "cflags": [
-                "<!@(<(pkg-config) --cflags x11 xext xscrnsaver)",
-              ],
-            },
-            "link_settings": {
-              "ldflags": [
-                "<!@(<(pkg-config) --libs-only-other --libs-only-L x11 xext xscrnsaver)",
-              ],
-              "libraries": [
-                "<!@(<(pkg-config) --libs-only-l x11 xext xscrnsaver)",
-              ]
-            }
-          }
-        ],
-        [
-          'OS=="freebsd"',
-          {
-            "target_name": "desktopIdle.freebsd",
-            "sources": [
-              "src/linux/idle.cc"
-            ],
-            "variables": {
-	            "pkg-config": "pkg-config"
-            },
-            "sources": [
-              "src/linux/idle.cc"
-            ],
-	    "include_dirs": [
-		"/usr/local/include"
-	    ],
-            "direct_dependent_settings": {
-              "cflags": [
-                "<!@(<(pkg-config) --cflags x11 xext xscrnsaver)",
-              ],
-            },
-            "link_settings": {
-              "ldflags": [
-                "<!@(<(pkg-config) --libs-only-other --libs-only-L x11 xext xscrnsaver)",
-              ],
-              "libraries": [
-                "<!@(<(pkg-config) --libs-only-l x11 xext xscrnsaver)",
-              ]
-            }
-          }
-        ],
-        [
-          'OS=="openbsd"',
-          {
-            "target_name": "desktopIdle.openbsd",
-            "sources": [
-              "src/linux/idle.cc"
-            ],
-            "variables": {
-	            "pkg-config": "pkg-config"
-            },
-            "sources": [
-              "src/linux/idle.cc"
-            ],
-	    "include_dirs": [
-		"/usr/X11R6/include"
-	    ],
-            "direct_dependent_settings": {
-              "cflags": [
-                "<!@(<(pkg-config) --cflags x11 xext xscrnsaver)",
-              ],
-            },
-            "link_settings": {
-              "ldflags": [
-                "<!@(<(pkg-config) --libs-only-other --libs-only-L x11 xext xscrnsaver)",
-              ],
-              "libraries": [
-                "<!@(<(pkg-config) --libs-only-l x11 xext xscrnsaver)",
-              ]
-            }
-          }
-        ],
-	[
-          'OS=="win"',
-          {
-            "target_name": "desktopIdle.win32",
-            "sources": [
-              "src/win/idle.cc"
-            ],
-            "msvs_settings": {
-              "VCLinkerTool": {
-                # Don't print a linker warning when no imports from either .exe are used.
-                "AdditionalOptions": ["/ignore:4199"],
-              }
-            }
-          }
-        ]
-      ]
-    }
-  ]
+            "conditions": [
+                ['OS=="mac"', {
+                    "sources": [
+                        "src/mac/idle.mm"
+                    ],
+                    "xcode_settings": {
+                        "OTHER_LDFLAGS": ["-framework CoreGraphics"]
+                    }
+                }],
+                [
+                    'OS=="linux"',
+                    {
+                        "sources": [
+                            "src/linux/idle.cc"
+                        ],
+                        "variables": {
+                            "pkg-config": "pkg-config"
+                        },
+                        "sources": [
+                            "src/linux/idle.cc"
+                        ],
+                        "direct_dependent_settings": {
+                            "cflags": [
+                                "<!@(<(pkg-config) --cflags x11 xext xscrnsaver)",
+                            ],
+                        },
+                        "link_settings": {
+                            "ldflags": [
+                                "<!@(<(pkg-config) --libs-only-other --libs-only-L x11 xext xscrnsaver)",
+                            ],
+                            "libraries": [
+                                "<!@(<(pkg-config) --libs-only-l x11 xext xscrnsaver)",
+                            ]
+                        }
+                    }
+                ],
+                [
+                    'OS=="freebsd"',
+                    {
+                        "sources": [
+                            "src/linux/idle.cc"
+                        ],
+                        "variables": {
+                            "pkg-config": "pkg-config"
+                        },
+                        "sources": [
+                            "src/linux/idle.cc"
+                        ],
+                        "include_dirs": [
+                            "/usr/local/include"
+                        ],
+                        "direct_dependent_settings": {
+                            "cflags": [
+                                "<!@(<(pkg-config) --cflags x11 xext xscrnsaver)",
+                            ],
+                        },
+                        "link_settings": {
+                            "ldflags": [
+                                "<!@(<(pkg-config) --libs-only-other --libs-only-L x11 xext xscrnsaver)",
+                            ],
+                            "libraries": [
+                                "<!@(<(pkg-config) --libs-only-l x11 xext xscrnsaver)",
+                            ]
+                        }
+                    }
+                ],
+                [
+                    'OS=="openbsd"',
+                    {
+                        "sources": [
+                            "src/linux/idle.cc"
+                        ],
+                        "variables": {
+                            "pkg-config": "pkg-config"
+                        },
+                        "sources": [
+                            "src/linux/idle.cc"
+                        ],
+                        "include_dirs": [
+                            "/usr/X11R6/include"
+                        ],
+                        "direct_dependent_settings": {
+                            "cflags": [
+                                "<!@(<(pkg-config) --cflags x11 xext xscrnsaver)",
+                            ],
+                        },
+                        "link_settings": {
+                            "ldflags": [
+                                "<!@(<(pkg-config) --libs-only-other --libs-only-L x11 xext xscrnsaver)",
+                            ],
+                            "libraries": [
+                                "<!@(<(pkg-config) --libs-only-l x11 xext xscrnsaver)",
+                            ]
+                        }
+                    }
+                ],
+                [
+                    'OS=="win"',
+                    {
+                        "target_name": "desktopIdle.win32",
+                        "sources": [
+                            "src/win/idle.cc"
+                        ],
+                        "msvs_settings": {
+                            "VCLinkerTool": {
+                                # Don't print a linker warning when no imports from either .exe are used.
+                                "AdditionalOptions": ["/ignore:4199"],
+                            }
+                        }
+                    }
+                ]
+            ]
+        }
+    ]
 }
